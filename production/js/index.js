@@ -2,9 +2,43 @@
 "use strict";
 
 var socket = io();
-socket.on('connect', function () {
-  console.log('Connection to server has been made!');
+var messageContainer = document.querySelector('[chat]');
+var messageForm = document.querySelector('[send-message]');
+var messageInput = messageForm.querySelector('input[type="text"]');
+var messageSubmit = document.querySelector('[send-message] input[type="submit"]');
+var name = prompt('What is your name?');
+appendMessage('You joined', 'you');
+socket.emit('new-user', name);
+socket.on('chat-message', function (data) {
+  appendMessage("".concat(data.name, ": ").concat(data.message));
 });
+socket.on('user-connected', function (name) {
+  appendMessage("".concat(name, " joined"), 'joined');
+});
+socket.on('user-disconnected', function (name) {
+  appendMessage("".concat(name, " left"), 'left');
+});
+messageSubmit.addEventListener('click', function (event) {
+  event.preventDefault();
+  var message = messageInput.value;
+  appendMessage("You: ".concat(message), 'you');
+  socket.emit('send-chat-message', message);
+  messageInput.value = '';
+});
+
+function appendMessage(message, user) {
+  var messageElement = document.createElement('div');
+
+  if (user === 'you') {
+    messageElement.classList = 'you';
+  } // else if (user === 'joined' || user === 'left') {
+  //     console.log('joined or left')
+  // }
+
+
+  messageElement.innerText = message;
+  messageContainer.append(messageElement);
+}
 
 },{}]},{},[1])
 

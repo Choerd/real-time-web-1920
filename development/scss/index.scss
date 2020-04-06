@@ -2,13 +2,49 @@
 @import './layout/_layout.scss';
 
 body {
-    background: $backgroundcolor;
+    background: $base-color;
+    padding: 20px;
 }
 
-header, footer {
-    font-family: $font-medium;
-}
+section {
+    background: $main-color;
+    max-width: 600px;
+    margin: auto;
+    height: calc(100vh - 2 * 20px);
+    position: relative;
 
-p {
-    font-family: $font-book;
+    [chat] {
+        padding: 10px;
+        height: 90%;
+        overflow: scroll;
+        font-family: $font-book;
+    }
+
+    div {
+        padding: 0px 0px 12px 0px;
+    }
+
+    div.you {
+        text-align: right;
+    }
+
+    form {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 16px);
+        display: flex;
+        padding: 8px;
+
+        input {
+            padding: 12px;
+            font-size: 14px;
+            font-family: $font-book;
+            border-radius: 5px;
+        }
+
+        input[type="text"] {
+            flex-grow: 2;
+            margin-right: 8px;
+        }
+    }
 }
