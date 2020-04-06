@@ -20,12 +20,16 @@ section {
         font-family: $font-book;
     }
 
-    div {
-        padding: 0px 0px 12px 0px;
+    div > div {
+        background-color: white;
+        width: fit-content;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
     }
 
-    div.you {
-        text-align: right;
+    div > div.you {
+        margin-left: auto;
     }
 
     form {

@@ -21,7 +21,7 @@ socket.on('user-disconnected', function (name) {
 messageSubmit.addEventListener('click', function (event) {
   event.preventDefault();
   var message = messageInput.value;
-  appendMessage("You: ".concat(message), 'you');
+  appendMessage("".concat(message), 'you');
   socket.emit('send-chat-message', message);
   messageInput.value = '';
 });
@@ -31,13 +31,15 @@ function appendMessage(message, user) {
 
   if (user === 'you') {
     messageElement.classList = 'you';
-  } // else if (user === 'joined' || user === 'left') {
-  //     console.log('joined or left')
-  // }
-
+  }
 
   messageElement.innerText = message;
   messageContainer.append(messageElement);
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
 }
 
 },{}]},{},[1])

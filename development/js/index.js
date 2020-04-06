@@ -23,7 +23,7 @@ socket.on('user-disconnected', name => {
 messageSubmit.addEventListener('click', event => {
     event.preventDefault()
     const message = messageInput.value
-    appendMessage(`You: ${message}`, 'you')
+    appendMessage(`${message}`, 'you')
     socket.emit('send-chat-message', message)
     messageInput.value = ''
 })
@@ -34,9 +34,12 @@ function appendMessage(message, user) {
     if (user === 'you') {
         messageElement.classList = 'you'
     }
-    // else if (user === 'joined' || user === 'left') {
-    //     console.log('joined or left')
-    // }
+
     messageElement.innerText = message
     messageContainer.append(messageElement)
+    scrollToBottom()
+}
+
+function scrollToBottom() {
+    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
 }
