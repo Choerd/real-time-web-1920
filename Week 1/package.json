@@ -7,7 +7,7 @@
     "start": "node server.js",
     "predev": "npm run build:production",
     "dev": "nodemon server.js",
-    "prebuild:production": "rimraf production/css/index.css",
+    "prebuild:production": "rimraf production/css/*",
     "build:production": "gulp",
     "watch": "gulp watch"
   },
@@ -17,7 +17,8 @@
   "dependencies": {
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "express-ejs-layouts": "^2.5.0"
+    "express-ejs-layouts": "^2.5.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

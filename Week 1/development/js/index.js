@@ -1,3 +1,5 @@
-import * as functie from './modules/logger.js'
+const socket = io()
 
-console.log(functie.logger('test'))
+socket.on('connect', () => {
+    console.log('Connection to server has been made!')
+})

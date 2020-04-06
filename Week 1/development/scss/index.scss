@@ -2,5 +2,13 @@
 @import './layout/_layout.scss';
 
 body {
-    background: $mycolor;
+    background: $backgroundcolor;
+}
+
+header, footer {
+    font-family: $font-medium;
+}
+
+p {
+    font-family: $font-book;
 }
