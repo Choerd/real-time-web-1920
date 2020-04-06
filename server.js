@@ -33,8 +33,10 @@ io.on('connection', socket => {
     })
 })
 
-const indexRouter = require('./routes/index')
+const registerRouter = require('./routes/register')
+const chatRouter = require('./routes/chat')
 
-app.use('/', indexRouter)
+app.use('/', registerRouter)
+app.use('/chat', chatRouter)
 
 http.listen(process.env.PORT || 4000, () => console.log(`Listening on Port ${process.env.PORT || 4000}`))

@@ -3,12 +3,23 @@
 
 var socket = io();
 var messageContainer = document.querySelector('[chat]');
-var messageForm = document.querySelector('[send-message]');
-var messageInput = messageForm.querySelector('input[type="text"]');
-var messageSubmit = document.querySelector('[send-message] input[type="submit"]');
-var name = prompt('What is your name?');
-appendMessage('You joined', 'you');
-socket.emit('new-user', name);
+
+if (messageContainer) {
+  var messageForm = document.querySelector('[send-message]');
+  var messageInput = messageForm.querySelector('input[type="text"]');
+  var messageSubmit = document.querySelector('[send-message] input[type="submit"]'); // const name = prompt('What is your name?')
+  // appendMessage('You joined', 'you')
+  // socket.emit('new-user', name)
+
+  messageSubmit.addEventListener('click', function (event) {
+    event.preventDefault();
+    var message = messageInput.value;
+    appendMessage("".concat(message), 'you');
+    socket.emit('send-chat-message', message);
+    messageInput.value = '';
+  });
+}
+
 socket.on('chat-message', function (data) {
   appendMessage("".concat(data.name, ": ").concat(data.message));
 });
@@ -17,13 +28,6 @@ socket.on('user-connected', function (name) {
 });
 socket.on('user-disconnected', function (name) {
   appendMessage("".concat(name, " left"), 'left');
-});
-messageSubmit.addEventListener('click', function (event) {
-  event.preventDefault();
-  var message = messageInput.value;
-  appendMessage("".concat(message), 'you');
-  socket.emit('send-chat-message', message);
-  messageInput.value = '';
 });
 
 function appendMessage(message, user) {
@@ -36,6 +40,16 @@ function appendMessage(message, user) {
   messageElement.innerText = message;
   messageContainer.append(messageElement);
   scrollToBottom();
+}
+
+var register = document.querySelector('[registerpage] form a');
+
+if (register) {
+  document.querySelector('[registerpage] form a').addEventListener('click', function () {
+    var name = document.querySelector('[registerpage] form input[type="text"]').value;
+    console.log(name);
+    socket.emit('new-user', name);
+  });
 }
 
 function scrollToBottom() {
