@@ -25,12 +25,19 @@ chatSubmit.addEventListener('click', function (event) {
     name: chatName.value,
     message: chatString.value
   });
+  socket.emit('emote', {
+    name: chatName.value,
+    message: chatString.value
+  });
 });
 socket.on('chat', function (user) {
   message.chat(user);
 });
 socket.on('command', function (command) {
   message.command(command);
+});
+socket.on('emote', function (emote) {
+  message.emote(emote);
 }); // Joining the chat
 
 socket.on('join', function (data) {
@@ -40,13 +47,6 @@ socket.on('join', function (data) {
 socket.on('leave', function (data) {
   message.server(data);
 });
-
-function resetHeight() {
-  document.body.style.height = window.innerHeight + "px";
-}
-
-window.addEventListener("resize", resetHeight);
-resetHeight();
 
 },{"./modules/chatting":2}],2:[function(require,module,exports){
 "use strict";
@@ -59,8 +59,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.chat = chat;
 exports.server = server;
 exports.command = command;
+exports.emote = emote;
 
 var commands = _interopRequireWildcard(require("./commands"));
+
+var emotes = _interopRequireWildcard(require("./emotes"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -94,13 +97,25 @@ function command(command) {
   if (commands.check(command.message)) {
     addMessage(commands.run(command.message));
   } else {
-    var messageElement = document.createElement('div');
-    messageElement.textContent = "This command is not available!";
-    messageElement.className = 'command';
-    addMessage(messageElement);
+    fallbackInput('command');
+  }
+}
+
+function emote(emote) {
+  if (emotes.check(emote.message)) {
+    addMessage(emotes.run(emote));
+  } else {
+    fallbackInput('emote');
   }
 } // Functions I re-use
 
+
+function fallbackInput(input) {
+  var messageElement = document.createElement('div');
+  messageElement.textContent = "This ".concat(input, " is not available!");
+  messageElement.className = input;
+  addMessage(messageElement);
+}
 
 function addMessage(messageElement) {
   if (messageElement.length === undefined) {
@@ -119,7 +134,7 @@ function scrollToBottom() {
   chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
 }
 
-},{"./commands":3}],3:[function(require,module,exports){
+},{"./commands":3,"./emotes":4}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -172,6 +187,58 @@ function createMessage(message) {
   var messageElement = document.createElement('div');
   messageElement.textContent = message;
   messageElement.className = 'command';
+  return messageElement;
+}
+
+},{}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.check = check;
+exports.run = run;
+var emotes = [':emotes', ':happy', ':angry', ':sad', ':cry', ':laugh', ':kiss'];
+
+function check(emote) {
+  return emotes.some(function (string) {
+    return emote.includes(string);
+  });
+}
+
+function run(emote) {
+  if (emote.message === ':emotes') {
+    return allEmotes();
+  }
+
+  var string;
+  emotes.forEach(function (emoticon) {
+    if (emote.message.includes(emoticon)) {
+      var name = emoticon.substring(1);
+      console.log(emote.message); // Todo: Fixen dat je meerdere emoticons in een zin kan gebruiken
+
+      string = emote.message.replace("".concat(emoticon), createImg("/images/".concat(name)));
+    }
+  });
+  var message = "".concat(emote.name, ": ").concat(string);
+  return createMessage(message, 'user you');
+}
+
+function allEmotes() {
+  return emotes.map(function (emote) {
+    return createMessage(emote, 'command you');
+  });
+} // Helper functions
+
+
+function createImg(emote) {
+  return "<img src=\"".concat(emote, ".png\">");
+}
+
+function createMessage(message, actor) {
+  var messageElement = document.createElement('div');
+  messageElement.innerHTML = message;
+  messageElement.className = actor;
   return messageElement;
 }
 

@@ -1,4 +1,5 @@
 import * as commands from './commands'
+import * as emotes from './emotes'
 
 const
     chatContainer = document.querySelector('[chat]'),
@@ -29,14 +30,26 @@ export function command(command) {
     if (commands.check(command.message)) {
         addMessage(commands.run(command.message))
     } else {
-        const messageElement = document.createElement('div')
-        messageElement.textContent = `This command is not available!`
-        messageElement.className = 'command'
-        addMessage(messageElement)
+        fallbackInput('command')
+    }
+}
+
+export function emote(emote) {
+    if (emotes.check(emote.message)) {
+        addMessage(emotes.run(emote))
+    } else {
+        fallbackInput('emote')
     }
 }
 
 // Functions I re-use
+function fallbackInput(input) {
+    const messageElement = document.createElement('div')
+    messageElement.textContent = `This ${input} is not available!`
+    messageElement.className = input
+    addMessage(messageElement)
+}
+
 function addMessage(messageElement) {
     if (messageElement.length === undefined) {
         chatContainer.append(messageElement)

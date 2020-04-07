@@ -21,6 +21,11 @@ chatSubmit.addEventListener('click', (event) => {
         name: chatName.value,
         message: chatString.value
     })
+
+    socket.emit('emote', {
+        name: chatName.value,
+        message: chatString.value
+    })
 })
 
 socket.on('chat', (user) => {
@@ -29,6 +34,10 @@ socket.on('chat', (user) => {
 
 socket.on('command', (command) => {
     message.command(command)
+})
+
+socket.on('emote', (emote) => {
+    message.emote(emote)
 })
 
 // Joining the chat
@@ -40,9 +49,3 @@ socket.on('join', (data) => {
 socket.on('leave', (data) => {
     message.server(data)
 })
-
-function resetHeight() {
-    document.body.style.height = window.innerHeight + "px";
-}
-window.addEventListener("resize", resetHeight);
-resetHeight()

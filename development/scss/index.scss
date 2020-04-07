@@ -25,20 +25,27 @@ body {
         padding: 10px;
         border-radius: 5px;
         margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+
+        img {
+            padding: 0px 8px;
+            width: 24px;
+        }
     }
 
     div > div.you {
         margin-left: auto;
     }
 
-    div > div.command, div > div.server {
+    div > div.command, div > div.server, div > div.emote {
         width: fit-content;
         font-family: $font-light;
         font-size: 12px;
         padding: 8px;
     }
 
-    div > div.command {
+    div > div.command, div > div.emote {
         margin-left: auto;
         opacity: .7;
     }

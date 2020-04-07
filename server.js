@@ -45,6 +45,11 @@ io.on('connection', socket => {
             user.name = `${user.name} (${id})`
             io.sockets.emit('command', user)
 
+        } else if (user.message.includes(':')) {
+
+            user.name = `${user.name} (${id})`
+            io.sockets.emit('emote', user)
+
         } else {
 
             user.name = `${user.name} (${id})`
