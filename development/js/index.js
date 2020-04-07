@@ -26,6 +26,8 @@ chatSubmit.addEventListener('click', (event) => {
         name: chatName.value,
         message: chatString.value
     })
+
+    chatString.value = ''
 })
 
 socket.on('chat', (user) => {

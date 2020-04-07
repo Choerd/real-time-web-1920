@@ -29,6 +29,7 @@ chatSubmit.addEventListener('click', function (event) {
     name: chatName.value,
     message: chatString.value
   });
+  chatString.value = '';
 });
 socket.on('chat', function (user) {
   message.chat(user);
@@ -71,15 +72,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var chatContainer = document.querySelector('[chat]'),
     chatForm = document.querySelector('[send-message]'),
-    chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
-    chatString = chatForm.querySelector('div input[type="text"]');
+    chatName = chatForm.querySelector('input[type="text"]:first-of-type');
 
 function chat(user) {
   var messageElement = document.createElement('div');
   messageElement.textContent = "".concat(user.name, ": ").concat(user.message);
   messageElement.className = 'user';
 
-  if (user.name.split(' ')[0] == chatName.value) {
+  if (user.name == "".concat(chatName.value, " ").concat(user.name.split(' ')[1])) {
     messageElement.className = messageElement.className + ' you';
   }
 
@@ -126,7 +126,6 @@ function addMessage(messageElement) {
     });
   }
 
-  chatString.value = '';
   scrollToBottom();
 }
 
@@ -199,6 +198,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.check = check;
 exports.run = run;
 var emotes = [':emotes', ':happy', ':angry', ':sad', ':cry', ':laugh', ':kiss'];
+var chatForm = document.querySelector('[send-message]'),
+    chatName = chatForm.querySelector('input[type="text"]:first-of-type');
 
 function check(emote) {
   return emotes.some(function (string) {
@@ -215,18 +216,17 @@ function run(emote) {
   emotes.forEach(function (emoticon) {
     if (emote.message.includes(emoticon)) {
       var name = emoticon.substring(1);
-      console.log(emote.message); // Todo: Fixen dat je meerdere emoticons in een zin kan gebruiken
-
-      string = emote.message.replace("".concat(emoticon), createImg("/images/".concat(name)));
+      var regex = new RegExp(emoticon, 'g');
+      string = emote.message.replace(regex, createImg("/images/".concat(name)));
     }
   });
   var message = "".concat(emote.name, ": ").concat(string);
-  return createMessage(message, 'user you');
+  return createMessage(emote, message, 'user');
 }
 
 function allEmotes() {
   return emotes.map(function (emote) {
-    return createMessage(emote, 'command you');
+    return createMessage(emote, 'command');
   });
 } // Helper functions
 
@@ -235,10 +235,15 @@ function createImg(emote) {
   return "<img src=\"".concat(emote, ".png\">");
 }
 
-function createMessage(message, actor) {
+function createMessage(user, message, actor) {
   var messageElement = document.createElement('div');
   messageElement.innerHTML = message;
   messageElement.className = actor;
+
+  if (user.name == "".concat(chatName.value, " ").concat(user.name.split(' ')[1])) {
+    messageElement.className = messageElement.className + ' you';
+  }
+
   return messageElement;
 }
 

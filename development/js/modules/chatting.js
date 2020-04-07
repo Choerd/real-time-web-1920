@@ -4,15 +4,14 @@ import * as emotes from './emotes'
 const
     chatContainer = document.querySelector('[chat]'),
     chatForm = document.querySelector('[send-message]'),
-    chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
-    chatString = chatForm.querySelector('div input[type="text"]')
+    chatName = chatForm.querySelector('input[type="text"]:first-of-type')
 
 export function chat(user) {
     const messageElement = document.createElement('div')
     messageElement.textContent = `${user.name}: ${user.message}`
     messageElement.className = 'user'
 
-    if (user.name.split(' ')[0] == chatName.value) {
+    if (user.name == `${chatName.value} ${user.name.split(' ')[1]}`) {
         messageElement.className = messageElement.className + ' you'
     }
 
@@ -56,7 +55,6 @@ function addMessage(messageElement) {
     } else {
         messageElement.forEach(element => chatContainer.append(element))
     }
-    chatString.value = ''
     scrollToBottom()
 }
 

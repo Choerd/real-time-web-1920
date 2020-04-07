@@ -25,6 +25,7 @@ io.on('connection', socket => {
         user: 'server',
         message: `You (${id}) joined the chat!`
     })
+
     socket.broadcast.emit('join', {
         user: 'server',
         message: `Anonymous(${id}) joined the chat!`
@@ -41,17 +42,12 @@ io.on('connection', socket => {
     // Chatting
     socket.on('chat', (user) => {
         if (user.message.includes('/')) {
-
             user.name = `${user.name} (${id})`
             io.sockets.emit('command', user)
-
         } else if (user.message.includes(':')) {
-
             user.name = `${user.name} (${id})`
             io.sockets.emit('emote', user)
-
         } else {
-
             user.name = `${user.name} (${id})`
             io.sockets.emit('chat', user)
 
