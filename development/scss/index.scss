@@ -1,13 +1,17 @@
 @import './base/_base.scss';
 @import './layout/_layout.scss';
 
+html, body {
+    height: 100%;
+}
+
 body {
     background: $base-color;
 }
 
 [chatpage] {
     background: $main-color;
-    height: 100vh;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
