@@ -1,4 +1,3 @@
-import { commands } from './modules/commands'
 import * as message from './modules/chatting'
 
 const socket = io()
@@ -17,6 +16,11 @@ chatSubmit.addEventListener('click', (event) => {
         name: chatName.value,
         message: chatString.value
     })
+
+    socket.emit('command', {
+        name: chatName.value,
+        message: chatString.value
+    })
 })
 
 socket.on('chat', (user) => {
@@ -24,7 +28,7 @@ socket.on('chat', (user) => {
 })
 
 socket.on('command', (command) => {
-
+    message.command(command)
 })
 
 // Joining the chat

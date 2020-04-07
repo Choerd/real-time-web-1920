@@ -1,3 +1,5 @@
+import * as commands from './commands'
+
 const
     chatContainer = document.querySelector('[chat]'),
     chatForm = document.querySelector('[send-message]'),
@@ -23,9 +25,25 @@ export function server(data) {
     addMessage(messageElement)
 }
 
+export function command(command) {
+    if (commands.check(command.message)) {
+        addMessage(commands.run(command.message))
+    } else {
+        const messageElement = document.createElement('div')
+        messageElement.textContent = `This command is not available!`
+        messageElement.className = 'command'
+        addMessage(messageElement)
+    }
+}
+
+// Functions I re-use
 function addMessage(messageElement) {
+    if (messageElement.length === undefined) {
+        chatContainer.append(messageElement)
+    } else {
+        messageElement.forEach(element => chatContainer.append(element))
+    }
     chatString.value = ''
-    chatContainer.append(messageElement)
     scrollToBottom()
 }
 

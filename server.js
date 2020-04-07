@@ -40,13 +40,17 @@ io.on('connection', socket => {
 
     // Chatting
     socket.on('chat', (user) => {
-        user.name = `${user.name} (${id})`
-        io.sockets.emit('chat', user)
-    })
+        if (user.message.includes('/')) {
 
-    // Using commands in the chats
-    socket.on('command', (command) => {
-        console.log(command)
+            user.name = `${user.name} (${id})`
+            io.sockets.emit('command', user)
+
+        } else {
+
+            user.name = `${user.name} (${id})`
+            io.sockets.emit('chat', user)
+
+        }
     })
 })
 

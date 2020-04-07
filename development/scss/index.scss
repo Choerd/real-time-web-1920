@@ -3,7 +3,6 @@
 
 body {
     background: $base-color;
-    // padding: 20px;
 }
 
 [chatpage] {
@@ -32,12 +31,20 @@ body {
         margin-left: auto;
     }
 
-    div > div.server {
+    div > div.command, div > div.server {
         width: fit-content;
-        margin: auto;
         font-family: $font-light;
         font-size: 12px;
         padding: 8px;
+    }
+
+    div > div.command {
+        margin-left: auto;
+        opacity: .7;
+    }
+
+    div > div.server {
+        margin: auto;
     }
 
     form {
@@ -64,38 +71,6 @@ body {
                 flex-grow: 1;
                 margin-right: 8px;
             }
-        }
-    }
-}
-
-[registerpage] {
-    background: $main-color;
-    height: 100vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    h1 {
-        font-family: $font-bold;
-        font-size: 32px;
-        text-align: center;
-        margin-bottom: 5vh;
-    }
-
-    form {
-        margin: 0px auto;
-        
-        input {
-            background: white;
-            padding: 12px;
-            font-size: 14px;
-            font-family: $font-book;
-            border-radius: 5px;
-        }
-
-        input[type="text"] {
-            margin-right: 8px;
         }
     }
 }
