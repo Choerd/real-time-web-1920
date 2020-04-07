@@ -1,59 +1,38 @@
+import { commands } from './modules/commands'
+import * as message from './modules/chatting'
+
 const socket = io()
-const messageContainer = document.querySelector('[chat]')
 
-if (messageContainer) {
-    const messageForm = document.querySelector('[send-message]')
-    const messageInput = messageForm.querySelector('input[type="text"]')
-    const messageSubmit = document.querySelector('[send-message] input[type="submit"]')
+const
+    chatForm = document.querySelector('[send-message]'),
+    chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
+    chatString = chatForm.querySelector('div input[type="text"]'),
+    chatSubmit = chatForm.querySelector('div input[type="submit"]')
 
-    // const name = prompt('What is your name?')
-    // appendMessage('You joined', 'you')
-    // socket.emit('new-user', name)
+// Chatting
+chatSubmit.addEventListener('click', (event) => {
+    event.preventDefault()
 
-    messageSubmit.addEventListener('click', event => {
-        event.preventDefault()
-        const message = messageInput.value
-        appendMessage(`${message}`, 'you')
-        socket.emit('send-chat-message', message)
-        messageInput.value = ''
+    socket.emit('chat', {
+        name: chatName.value,
+        message: chatString.value
     })
-}
-
-socket.on('chat-message', data => {
-    appendMessage(`${data.name}: ${data.message}`)
 })
 
-socket.on('user-connected', name => {
-    appendMessage(`${name} joined`, 'joined')
+socket.on('chat', (user) => {
+    message.chat(user)
 })
 
-socket.on('user-disconnected', name => {
-    appendMessage(`${name} left`, 'left')
+socket.on('command', (command) => {
+
 })
 
-function appendMessage(message, user) {
-    const messageElement = document.createElement('div')
+// Joining the chat
+socket.on('join', (data) => {
+    message.server(data)
+})
 
-    if (user === 'you') {
-        messageElement.classList = 'you'
-    }
-
-    messageElement.innerText = message
-    messageContainer.append(messageElement)
-    scrollToBottom()
-}
-
-const register = document.querySelector('[registerpage] form a')
-if (register) {
-    document.querySelector('[registerpage] form a').addEventListener('click', () => {
-
-        const name = document.querySelector('[registerpage] form input[type="text"]').value
-
-        console.log(name)
-        socket.emit('new-user', name)
-    })
-}
-
-function scrollToBottom() {
-    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
-}
+// Leaving the chat
+socket.on('leave', (data) => {
+    message.server(data)
+})

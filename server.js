@@ -14,29 +14,44 @@ app
     .use(expressLayouts)
     .use(express.static('production'))
 
-const users = {}
-
 // socket.io
+let counter = 0
+
 io.on('connection', socket => {
-    socket.on('new-user', name => {
-        users[socket.id] = name
-        socket.broadcast.emit('user-connected', name)
+    const id = counter++
+
+    // A user joins the room
+    socket.emit('join', {
+        user: 'server',
+        message: `You (${id}) joined the chat!`
+    })
+    socket.broadcast.emit('join', {
+        user: 'server',
+        message: `Anonymous(${id}) joined the chat!`
     })
 
-    socket.on('send-chat-message', message => {
-        socket.broadcast.emit('chat-message', { name: users[socket.id], message: message })
-    })
-
+    // A user leaves the chat
     socket.on('disconnect', () => {
-        socket.broadcast.emit('user-disconnected', users[socket.id])
-        delete users[socket.id]
+        socket.broadcast.emit('leave', {
+            user: 'server',
+            message: `Anonymous(${id}) left the chat!`
+        })
+    })
+
+    // Chatting
+    socket.on('chat', (user) => {
+        user.name = `${user.name} (${id})`
+        io.sockets.emit('chat', user)
+    })
+
+    // Using commands in the chats
+    socket.on('command', (command) => {
+        console.log(command)
     })
 })
 
-const registerRouter = require('./routes/register')
 const chatRouter = require('./routes/chat')
 
-app.use('/', registerRouter)
-app.use('/chat', chatRouter)
+app.use('/', chatRouter)
 
 http.listen(process.env.PORT || 4000, () => console.log(`Listening on Port ${process.env.PORT || 4000}`))

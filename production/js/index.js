@@ -1,60 +1,93 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var _commands = require("./modules/commands");
+
+var message = _interopRequireWildcard(require("./modules/chatting"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 var socket = io();
-var messageContainer = document.querySelector('[chat]');
+var chatForm = document.querySelector('[send-message]'),
+    chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
+    chatString = chatForm.querySelector('div input[type="text"]'),
+    chatSubmit = chatForm.querySelector('div input[type="submit"]'); // Chatting
 
-if (messageContainer) {
-  var messageForm = document.querySelector('[send-message]');
-  var messageInput = messageForm.querySelector('input[type="text"]');
-  var messageSubmit = document.querySelector('[send-message] input[type="submit"]'); // const name = prompt('What is your name?')
-  // appendMessage('You joined', 'you')
-  // socket.emit('new-user', name)
-
-  messageSubmit.addEventListener('click', function (event) {
-    event.preventDefault();
-    var message = messageInput.value;
-    appendMessage("".concat(message), 'you');
-    socket.emit('send-chat-message', message);
-    messageInput.value = '';
+chatSubmit.addEventListener('click', function (event) {
+  event.preventDefault();
+  socket.emit('chat', {
+    name: chatName.value,
+    message: chatString.value
   });
-}
+});
+socket.on('chat', function (user) {
+  message.chat(user);
+});
+socket.on('command', function (command) {}); // Joining the chat
 
-socket.on('chat-message', function (data) {
-  appendMessage("".concat(data.name, ": ").concat(data.message));
-});
-socket.on('user-connected', function (name) {
-  appendMessage("".concat(name, " joined"), 'joined');
-});
-socket.on('user-disconnected', function (name) {
-  appendMessage("".concat(name, " left"), 'left');
+socket.on('join', function (data) {
+  message.server(data);
+}); // Leaving the chat
+
+socket.on('leave', function (data) {
+  message.server(data);
 });
 
-function appendMessage(message, user) {
+},{"./modules/chatting":2,"./modules/commands":3}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.chat = chat;
+exports.server = server;
+var chatContainer = document.querySelector('[chat]'),
+    chatForm = document.querySelector('[send-message]'),
+    chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
+    chatString = chatForm.querySelector('div input[type="text"]');
+
+function chat(user) {
   var messageElement = document.createElement('div');
+  messageElement.textContent = "".concat(user.name, ": ").concat(user.message);
+  messageElement.className = 'user';
 
-  if (user === 'you') {
-    messageElement.classList = 'you';
+  if (user.name.split(' ')[0] == chatName.value) {
+    messageElement.className = messageElement.className + ' you';
   }
 
-  messageElement.innerText = message;
-  messageContainer.append(messageElement);
+  addMessage(messageElement);
+}
+
+function server(data) {
+  var messageElement = document.createElement('div');
+  messageElement.textContent = data.message;
+  messageElement.className = 'server';
+  addMessage(messageElement);
+}
+
+function addMessage(messageElement) {
+  chatString.value = '';
+  chatContainer.append(messageElement);
   scrollToBottom();
 }
 
-var register = document.querySelector('[registerpage] form a');
-
-if (register) {
-  document.querySelector('[registerpage] form a').addEventListener('click', function () {
-    var name = document.querySelector('[registerpage] form input[type="text"]').value;
-    console.log(name);
-    socket.emit('new-user', name);
-  });
-}
-
 function scrollToBottom() {
-  messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+  chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
 }
+
+},{}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.commands = void 0;
+var commands = [':help'];
+exports.commands = commands;
 
 },{}]},{},[1])
 
