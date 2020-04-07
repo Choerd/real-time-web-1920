@@ -1,7 +1,6 @@
 const emotes = [':emotes', ':happy', ':angry', ':sad', ':cry', ':laugh', ':kiss']
 
 export function check(emote) {
-
     return emotes.some(string => emote.includes(string))
 }
 
