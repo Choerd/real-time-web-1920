@@ -41,6 +41,13 @@ socket.on('leave', function (data) {
   message.server(data);
 });
 
+function resetHeight() {
+  document.body.style.height = window.innerHeight + "px";
+}
+
+window.addEventListener("resize", resetHeight);
+resetHeight();
+
 },{"./modules/chatting":2}],2:[function(require,module,exports){
 "use strict";
 

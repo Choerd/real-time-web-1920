@@ -40,3 +40,9 @@ socket.on('join', (data) => {
 socket.on('leave', (data) => {
     message.server(data)
 })
+
+function resetHeight() {
+    document.body.style.height = window.innerHeight + "px";
+}
+window.addEventListener("resize", resetHeight);
+resetHeight()
