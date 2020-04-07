@@ -29,7 +29,7 @@ export function run(emote) {
 
 function allEmotes() {
     return emotes.map(emote => {
-        return createMessage(emote, 'command')
+        return createMessage('', emote, 'command')
     })
 }
 
@@ -43,8 +43,10 @@ function createMessage(user, message, actor) {
     messageElement.innerHTML = message
     messageElement.className = actor
 
-    if (user.name == `${chatName.value} ${user.name.split(' ')[1]}`) {
-        messageElement.className = messageElement.className + ' you'
+    if (user) {
+        if (user.name == `${chatName.value} ${user.name.split(' ')[1]}`) {
+            messageElement.className = messageElement.className + ' you'
+        }
     }
 
     return messageElement

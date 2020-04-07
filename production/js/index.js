@@ -226,7 +226,7 @@ function run(emote) {
 
 function allEmotes() {
   return emotes.map(function (emote) {
-    return createMessage(emote, 'command');
+    return createMessage('', emote, 'command');
   });
 } // Helper functions
 
@@ -240,8 +240,10 @@ function createMessage(user, message, actor) {
   messageElement.innerHTML = message;
   messageElement.className = actor;
 
-  if (user.name == "".concat(chatName.value, " ").concat(user.name.split(' ')[1])) {
-    messageElement.className = messageElement.className + ' you';
+  if (user) {
+    if (user.name == "".concat(chatName.value, " ").concat(user.name.split(' ')[1])) {
+      messageElement.className = messageElement.className + ' you';
+    }
   }
 
   return messageElement;
