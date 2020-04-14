@@ -42,7 +42,7 @@ io.on('connection', socket => {
     // Chatting
     socket.on('chat', (user) => {
         if (user.message.includes(':add')) {
-            socket.emit('addGrocery', user)
+            io.sockets.emit('addGrocery', user)
 
             console.log(user.message.split(':add')[1].substring(1))
 
