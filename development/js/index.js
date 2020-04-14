@@ -1,4 +1,5 @@
 import * as message from './modules/chatting'
+import * as grocerie from './modules/groceries'
 
 const socket = io()
 
@@ -17,29 +18,13 @@ chatSubmit.addEventListener('click', (event) => {
         message: chatString.value
     })
 
-    socket.emit('command', {
-        name: chatName.value,
-        message: chatString.value
-    })
-
-    socket.emit('emote', {
-        name: chatName.value,
-        message: chatString.value
-    })
+    grocerie.add()
 
     chatString.value = ''
 })
 
 socket.on('chat', (user) => {
     message.chat(user)
-})
-
-socket.on('command', (command) => {
-    message.command(command)
-})
-
-socket.on('emote', (emote) => {
-    message.emote(emote)
 })
 
 // Joining the chat

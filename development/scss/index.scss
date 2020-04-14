@@ -9,63 +9,46 @@ body {
     background: $base-color;
 }
 
-[chatpage] {
+main {
     background: $main-color;
-    height: 100%;
-    position: relative;
+    height: calc(100% - 50px);
     display: flex;
-    flex-direction: column;
+    
+    [chat-container] {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
 
     [chat] {
         padding: 10px;
         overflow: scroll;
         font-family: $font-book;
         flex-grow: 1;
-    }
 
-    div > div.user {
-        background-color: white;
-        width: fit-content;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
+        div {
+            padding: 8px 0px;
+        }
 
-        img {
-            padding: 0px 8px;
-            width: 24px;
+        // .user {
+
+        // }
+
+        .server {
+            color: black;
+            font-size: 12px;
+            text-align: center;
         }
     }
 
-    div > div.you {
-        margin-left: auto;
-    }
-
-    div > div.command, div > div.server, div > div.emote {
-        width: fit-content;
-        font-family: $font-light;
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    div > div.command, div > div.emote {
-        margin: auto;
-        opacity: .7;
-    }
-
-    div > div.server {
-        margin: auto;
-    }
-
     form {
-        width: calc(100% - 16px);
+        width: calc(100% - 20px);
         display: flex;
-        padding: 8px;
+        padding: 10px;
         flex-direction: column;
 
         > input {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         input {
@@ -80,8 +63,22 @@ body {
 
             input[type="text"] {
                 flex-grow: 1;
-                margin-right: 8px;
+                margin-right: 10px;
             }
+        }
+    }
+
+    [grocerie-container] {
+        width: 40%;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white;
+        font-family: $font-book;
+
+        ul li {
+            padding: 8px 0px;
+            border-bottom: 2px solid lightgrey;
         }
     }
 }
