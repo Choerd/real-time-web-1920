@@ -41,8 +41,15 @@ io.on('connection', socket => {
 
     // Chatting
     socket.on('chat', (user) => {
-        user.name = `${user.name} (${id})`
-        io.sockets.emit('chat', user)
+        if (user.message.includes(':add')) {
+            socket.emit('addGrocery', user)
+
+            console.log(user.message.split(':add')[1].substring(1))
+
+        } else {
+            user.name = `${user.name} (${id})`
+            io.sockets.emit('chat', user)
+        }
     })
 })
 

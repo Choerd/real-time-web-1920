@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 var message = _interopRequireWildcard(require("./modules/chatting"));
 
-var grocerie = _interopRequireWildcard(require("./modules/groceries"));
+var grocery = _interopRequireWildcard(require("./modules/groceries"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -23,11 +23,14 @@ chatSubmit.addEventListener('click', function (event) {
     name: chatName.value,
     message: chatString.value
   });
-  grocerie.add();
   chatString.value = '';
+}); // Basic chatting
+
+socket.on('chat', function (data) {
+  message.chat(data);
 });
-socket.on('chat', function (user) {
-  message.chat(user);
+socket.on('addGrocery', function (data) {
+  grocery.add(data);
 }); // Joining the chat
 
 socket.on('join', function (data) {
@@ -78,12 +81,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.add = add;
-var grocerielist = document.querySelector('[grocerie-container] ul');
+var grocerylist = document.querySelector('[grocery-container] ul'); // Todo: Wanneer een boodschap meer dan 1x voorkomt een counter toevoegen
+// Todo: Wanneer een boodschap meer dan 1x voorkomt een - toevoegen om te minderen in hoeveelheid
 
-function add() {
-  var grocerie = document.createElement('li');
-  grocerie.textContent = 'Test';
-  grocerielist.append(grocerie);
+function add(data) {
+  var message = data.message.split(':add')[1].substring(1);
+  var grocery = document.createElement('li');
+  var removeButton = document.createElement('span');
+  grocery.textContent = message;
+  removeButton.textContent = 'X';
+  grocery.append(removeButton);
+  grocerylist.append(grocery);
+  removeButton.addEventListener('click', function (e) {
+    return remove(e.target);
+  });
+}
+
+function remove(element) {
+  var grocery = element.parentElement;
+  grocery.remove();
 }
 
 },{}]},{},[1])

@@ -22,5 +22,5 @@ function addMessage(messageElement) {
 }
 
 function scrollToBottom() {
-    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
+    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight
 }
