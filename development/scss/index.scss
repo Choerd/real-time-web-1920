@@ -83,4 +83,28 @@ body {
             justify-content: space-between;
         }
     }
+
+}
+
+[drinks] {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    font-family: $font-book;
+
+    article {
+        padding: 8px;
+        margin: 4px;
+        background-color: $main-color;
+
+        p {
+            width: fit-content;
+            margin: auto;
+            padding: 8px 0px;
+        }
+
+        img {
+            width: 380px;
+        }
+    }
 }

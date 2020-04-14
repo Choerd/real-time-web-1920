@@ -53,8 +53,8 @@ io.on('connection', socket => {
     })
 })
 
-const chatRouter = require('./routes/chat')
+const indexRouter = require('./routes')
 
-app.use('/', chatRouter)
+app.use('/', indexRouter)
 
 http.listen(process.env.PORT || 4000, () => console.log(`Listening on Port ${process.env.PORT || 4000}`))
