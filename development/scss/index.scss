@@ -73,12 +73,23 @@ body {
         border-radius: 5px;
         background-color: white;
         font-family: $font-book;
+        position: relative;
 
         ul li {
             padding: 8px 0px;
             border-bottom: 2px solid lightgrey;
             display: flex;
             justify-content: space-between;
+        }
+
+        button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 12px;
+            font-size: 16px;
+            font-family: "Source Code Pro",Roboto,Arial,sans-serif;
+            border-radius: 5px;
         }
     }
 

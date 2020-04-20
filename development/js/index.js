@@ -38,6 +38,11 @@ socket.on('join', (data) => {
     message.server(data)
 })
 
+// Joining the chat
+socket.on('loadGroceries', (data) => {
+    grocery.getAll(data)
+})
+
 // Leaving the chat
 socket.on('leave', (data) => {
     message.server(data)

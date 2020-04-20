@@ -1,4 +1,4 @@
-const drinks = require('../modules/drinks/all')
+const drinks = require('../modules/api/drinks/all')
 
 const
     express = require('express'),

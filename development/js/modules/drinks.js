@@ -11,8 +11,9 @@ export function drinks() {
 }
 
 function sendData(data) {
-    const jsonString = JSON.stringify(data)
-    const xhr = new XMLHttpRequest()
+    const
+        xhr = new XMLHttpRequest(),
+        jsonString = JSON.stringify(data)
 
     xhr.open('post', '/')
     xhr.setRequestHeader('Content-Type', 'application/json')

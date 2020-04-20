@@ -1,27 +1,42 @@
 // Todo: Wanneer een boodschap meer dan 1x voorkomt een counter toevoegen
 // Todo: Wanneer een boodschap meer dan 1x voorkomt een - toevoegen om te minderen in hoeveelheid
 
-export function add(data) {
-    const grocerylist = document.querySelector('[grocery-container] ul')
-    grocerylist.append(grocery(data))
+const grocerylist = document.querySelector('[grocery-container] ul')
 
+export function add(data) {
+    grocerylist.append(groceryElement(data))
 }
 
-function grocery(data) {
-    const message = data.message.split(':add')[1].substring(1)
+function groceryElement(data) {
     const grocery = document.createElement('li')
     const removeButton = document.createElement('span')
 
-    grocery.textContent = message
+    grocery.textContent = data
     removeButton.textContent = 'X'
 
     grocery.append(removeButton)
-    removeButton.addEventListener('click', e => remove(e.target))
+    removeButton.addEventListener('click', (event) => remove(event.target))
 
     return grocery
+}
+
+export function getAll(data) {
+    const grocies = data.groceries
+
+    grocies.forEach(grocery => {
+        add(grocery)
+    })
 }
 
 function remove(element) {
     const grocery = element.parentElement
     grocery.remove()
 }
+
+// Remove all groceries
+document.querySelector('[grocery-container] button').addEventListener('click', () => {
+    const groceries = [...grocerylist.children]
+    groceries.forEach(grocery => {
+        grocery.remove()
+    })
+})
