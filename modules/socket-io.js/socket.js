@@ -1,3 +1,5 @@
+const get = require('../../modules/api/drinks')
+
 module.exports = (io) => {
     let
         counter = 0,
@@ -27,6 +29,10 @@ module.exports = (io) => {
                 user: 'server',
                 message: `Anonymous(${id}) left the chat!`
             })
+        })
+
+        socket.on('pickDrink', async (data) => {
+            io.sockets.emit('pickDrink', await get.ingredients(data.data.id))
         })
 
         // Chatting

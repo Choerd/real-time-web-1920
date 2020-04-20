@@ -1,3 +1,5 @@
+const socket = io()
+
 export function drinks() {
     const drinksContainer = document.querySelector('[drinks]')
     const drinks = [...drinksContainer.children]
@@ -5,19 +7,7 @@ export function drinks() {
     drinks.forEach(drink => {
         drink.addEventListener('click', () => {
             const data = { id: drink.id, drink: drink.querySelector('p').textContent }
-            sendData(data)
+            socket.emit('pickDrink', { data })
         })
     })
-}
-
-function sendData(data) {
-    const
-        xhr = new XMLHttpRequest(),
-        jsonString = JSON.stringify(data)
-
-    xhr.open('post', '/')
-    xhr.setRequestHeader('Content-Type', 'application/json')
-
-    console.log(jsonString)
-    xhr.send(jsonString)
 }

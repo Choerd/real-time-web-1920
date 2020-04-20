@@ -1,4 +1,4 @@
-const drinks = require('../modules/api/drinks/all')
+const get = require('../modules/api/drinks')
 
 const
     express = require('express'),
@@ -7,12 +7,6 @@ const
 const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/', async (req, res) => res.render('index', { drinks: await drinks() }))
-
-router.post('/', (req, res) => {
-    console.log(req.body)
-
-    res.status(204).send()
-})
+router.get('/', async (req, res) => res.render('index', { drinks: await get.drinks() }))
 
 module.exports = router

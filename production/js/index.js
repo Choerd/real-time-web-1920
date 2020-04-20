@@ -34,10 +34,16 @@ socket.on('chat', function (data) {
 });
 socket.on('addGrocery', function (data) {
   grocery.add(data);
+});
+socket.on('pickDrink', function (data) {
+  data.ingredients.forEach(function (ingredient) {
+    grocery.add(ingredient);
+  });
+  message.server("All the ingredients of: ".concat(data.name, " were added to the grocerylist"));
 }); // Joining the chat
 
 socket.on('join', function (data) {
-  message.server(data);
+  message.server(data.message);
 }); // Joining the chat
 
 socket.on('loadGroceries', function (data) {
@@ -45,7 +51,7 @@ socket.on('loadGroceries', function (data) {
 }); // Leaving the chat
 
 socket.on('leave', function (data) {
-  message.server(data);
+  message.server(data.message);
 });
 
 },{"./modules/chatting":2,"./modules/drinks":3,"./modules/groceries":4}],2:[function(require,module,exports){
@@ -66,8 +72,9 @@ function chat(user) {
 }
 
 function server(data) {
+  console.log(data);
   var messageElement = document.createElement('div');
-  messageElement.textContent = data.message;
+  messageElement.textContent = data;
   messageElement.className = 'server';
   addMessage(messageElement);
 }
@@ -101,6 +108,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+var socket = io();
+
 function drinks() {
   var drinksContainer = document.querySelector('[drinks]');
 
@@ -112,18 +121,11 @@ function drinks() {
         id: drink.id,
         drink: drink.querySelector('p').textContent
       };
-      sendData(data);
+      socket.emit('pickDrink', {
+        data: data
+      });
     });
   });
-}
-
-function sendData(data) {
-  var xhr = new XMLHttpRequest(),
-      jsonString = JSON.stringify(data);
-  xhr.open('post', '/');
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  console.log(jsonString);
-  xhr.send(jsonString);
 }
 
 },{}],4:[function(require,module,exports){

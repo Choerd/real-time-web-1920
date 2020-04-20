@@ -33,9 +33,17 @@ socket.on('addGrocery', (data) => {
     grocery.add(data)
 })
 
+socket.on('pickDrink', (data) => {
+    data.ingredients.forEach(ingredient => {
+        grocery.add(ingredient)
+    })
+
+    message.server(`All the ingredients of: ${data.name} were added to the grocerylist`)
+})
+
 // Joining the chat
 socket.on('join', (data) => {
-    message.server(data)
+    message.server(data.message)
 })
 
 // Joining the chat
@@ -45,5 +53,5 @@ socket.on('loadGroceries', (data) => {
 
 // Leaving the chat
 socket.on('leave', (data) => {
-    message.server(data)
+    message.server(data.message)
 })

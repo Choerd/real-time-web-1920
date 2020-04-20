@@ -9,8 +9,9 @@ export function chat(user) {
 }
 
 export function server(data) {
+    console.log(data)
     const messageElement = document.createElement('div')
-    messageElement.textContent = data.message
+    messageElement.textContent = data
     messageElement.className = 'server'
 
     addMessage(messageElement)
