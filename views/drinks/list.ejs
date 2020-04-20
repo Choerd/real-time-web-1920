@@ -1,0 +1,8 @@
+<section drinks>
+    <% drinks.forEach(drink => { %>
+    <article id="<%= drink.idDrink %>">
+        <img src="<%= drink.strDrinkThumb %>">
+        <p><%= drink.strDrink %></p>
+    </article>
+    <% }) %>
+</section>

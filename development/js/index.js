@@ -1,5 +1,6 @@
 import * as message from './modules/chatting'
 import * as grocery from './modules/groceries'
+import * as drinks from './modules/drinks'
 
 const socket = io()
 
@@ -20,6 +21,8 @@ chatSubmit.addEventListener('click', (event) => {
 
     chatString.value = ''
 })
+
+drinks.drinks()
 
 // Basic chatting
 socket.on('chat', (data) => {

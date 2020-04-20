@@ -1,13 +1,5 @@
 <section main>
     <%- include('./chat/message.ejs') %>
     <%- include('./groceries/list.ejs') %>
-</section>
-
-<section drinks>
-    <% drinks.forEach(drink => { %>
-    <article id="<%= drink.idDrink %>">
-        <img src="<%= drink.strDrinkThumb %>">
-        <p><%= drink.strDrink %></p>
-    </article>
-    <% }) %>
+    <%- include('./drinks/list.ejs') %>
 </section>

@@ -11,7 +11,7 @@ body {
 
 [main] {
     background: $main-color;
-    height: calc(100% - 50px);
+    height: 100%;
     display: flex;
     
     [chat-container] {
@@ -65,7 +65,9 @@ body {
     }
 
     [grocery-container] {
-        width: 40%;
+        flex-grow: 2;
+        max-width: 500px;
+        min-width: 300px;
         margin: 10px;
         padding: 10px;
         border-radius: 5px;
@@ -80,27 +82,30 @@ body {
         }
     }
 
-}
-
-[drinks] {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-    font-family: $font-book;
-
-    article {
-        padding: 8px;
-        margin: 4px;
-        background-color: $main-color;
-
-        p {
+    [drinks] {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        font-family: $font-book;
+        overflow-y: scroll;
+    
+        article {
             width: fit-content;
-            margin: auto;
-            padding: 8px 0px;
-        }
+            padding: 8px;
+            margin: 4px;
+            background-color: $main-color;
+            width: 240px;
+            background-color: white;
 
-        img {
-            width: 380px;
+            p {
+                margin: auto;
+                padding: 8px 0px;
+                text-align: center;
+            }
+    
+            img {
+                width: 240px;
+            }
         }
     }
 }
