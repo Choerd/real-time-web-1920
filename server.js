@@ -1,5 +1,5 @@
 // Modules
-const socket = require('./modules/socket-io.js/socket')
+const socket = require('./modules/socket-io/socket')
 
 const
     express = require('express'),

@@ -1,57 +1,16 @@
-import * as message from './modules/chatting'
-import * as grocery from './modules/groceries'
-import * as drinks from './modules/drinks'
+import * as run from './modules/socket-io/socket'
 
 const socket = io()
 
-const
-    chatForm = document.querySelector('[send-message]'),
-    chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
-    chatString = chatForm.querySelector('div input[type="text"]'),
-    chatSubmit = chatForm.querySelector('div input[type="submit"]')
+run.sockets(socket)
 
-// Chatting
-chatSubmit.addEventListener('click', (event) => {
-    event.preventDefault()
+// drinks.drinks()
 
-    socket.emit('chat', {
-        name: chatName.value,
-        message: chatString.value
-    })
 
-    chatString.value = ''
-})
+// socket.on('pickDrink', (data) => {
+//     data.ingredients.forEach(ingredient => {
+//         grocery.add(ingredient)
+//     })
 
-drinks.drinks()
-
-// Basic chatting
-socket.on('chat', (data) => {
-    message.chat(data)
-})
-
-socket.on('addGrocery', (data) => {
-    grocery.add(data)
-})
-
-socket.on('pickDrink', (data) => {
-    data.ingredients.forEach(ingredient => {
-        grocery.add(ingredient)
-    })
-
-    message.server(`All the ingredients of: ${data.name} were added to the grocerylist`)
-})
-
-// Joining the chat
-socket.on('join', (data) => {
-    message.server(data.message)
-})
-
-// Joining the chat
-socket.on('loadGroceries', (data) => {
-    grocery.getAll(data)
-})
-
-// Leaving the chat
-socket.on('leave', (data) => {
-    message.server(data.message)
-})
+//     message.server(`All the ingredients of: ${data.name} were added to the grocerylist`)
+// })
