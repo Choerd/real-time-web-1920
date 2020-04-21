@@ -72,7 +72,6 @@ function chat(user) {
 }
 
 function server(data) {
-  console.log(data);
   var messageElement = document.createElement('div');
   messageElement.textContent = data;
   messageElement.className = 'server';

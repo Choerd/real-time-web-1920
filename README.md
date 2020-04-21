@@ -1,5 +1,39 @@
 # Real-Time Web @cmda-minor-web · 2019-2020
 
+## Table of Contents
+* [Concept](#Concept)
+* [About the app](#About-the-app)
+    * [Features](Features)
+    * [Events](Events)
+* [What could be better?](#What-could-be-better?)
+* [Credits](#Credits)
+
+![First attempt Data Life Cycle Diagram](https://user-images.githubusercontent.com/45365598/79846368-a72d2500-83be-11ea-9e6d-0f2275b56522.png)
+
+<hr>
+
+## Concept
+...
+
+<hr>
+
+## About the Chat app
+...
+
+### Events
+* ...
+
+<hr>
+
+## What could be better?
+* ...
+
+<hr>
+
+## Credits
+...
+
+<!-- 
 * [Concept](#Concept)
 * [About the Chat app](#About-the-chat-app)
     * [Features](Features)
@@ -48,4 +82,4 @@ When the user sends a message the server checks which kind of message it is.
 
 ## Credits
 * Fixing a issue where I could not use template literals inside a Regex. (**Guido**)
-    * Guido explained me how to approach this and after a few minuts it worked fine!
+    * Guido explained me how to approach this and after a few minuts it worked fine! -->

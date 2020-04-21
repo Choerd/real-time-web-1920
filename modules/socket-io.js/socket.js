@@ -24,7 +24,7 @@ module.exports = (io) => {
         })
 
         // A user leaves the chat
-        socket.on('disconnect', (data) => {
+        socket.on('disconnect', () => {
             socket.broadcast.emit('leave', {
                 user: 'server',
                 message: `Anonymous(${id}) left the chat!`
