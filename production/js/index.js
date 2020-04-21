@@ -191,7 +191,7 @@ var _default = function _default(io) {
       });
     });
   });
-  io.on('remove', function (name) {
+  io.on('remove', function (data) {
     var _iterator = _createForOfIteratorHelper(document.querySelectorAll("li")),
         _step;
 
@@ -199,7 +199,7 @@ var _default = function _default(io) {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var li = _step.value;
 
-        if (li.textContent.includes(name.name)) {
+        if (li.textContent.includes(data.name)) {
           li.remove();
         }
       }

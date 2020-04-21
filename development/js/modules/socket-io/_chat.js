@@ -13,14 +13,9 @@ export default (io) => {
         event.preventDefault()
 
         if (chatString.value.includes(':add')) {
-            io.emit('grocery', {
-                grocery: chatString.value.split(':add')[1].substring(1)
-            })
+            io.emit('grocery', { grocery: chatString.value.split(':add')[1].substring(1) })
         } else {
-            io.emit('chat', {
-                name: chatName.value,
-                message: chatString.value
-            })
+            io.emit('chat', { name: chatName.value, message: chatString.value })
         }
 
         chatString.value = ''
@@ -42,9 +37,9 @@ export default (io) => {
         })
     })
 
-    io.on('remove', (name) => {
+    io.on('remove', (data) => {
         for (const li of document.querySelectorAll("li")) {
-            if (li.textContent.includes(name.name)) {
+            if (li.textContent.includes(data.name)) {
                 li.remove()
             }
         }
