@@ -12,7 +12,6 @@ export default (io) => {
             li.addEventListener('click', (event) => {
                 const string = event.target.parentElement.textContent
                 const groceryName = string.substring(0, string.length - 1)
-
                 io.emit('remove', { name: groceryName })
             })
         })

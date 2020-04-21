@@ -58,42 +58,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.add = add;
-exports.remove = remove;
 exports.renderAll = renderAll;
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var grocerylist = document.querySelector('[grocery-container] ul'); // Add a single grocery Done
-// Remove a single grocery
-// Remove all groceries
+var grocerylist = document.querySelector('[grocery-container] ul');
 
 function add(data) {
   var grocery = document.createElement('li');
   var removeButton = document.createElement('span');
   grocery.textContent = data;
   removeButton.textContent = 'X';
-  grocery.append(removeButton); // removeButton.addEventListener('click', (event) => remove(event.target))
-
+  grocery.append(removeButton);
   grocerylist.append(grocery);
   return removeButton;
-}
-
-function remove(element) {
-  console.log('poep');
-  var li = element.parentElement;
-  var text = element.parentElement.textContent;
-  var grocery = text.substring(0, text.length - 1);
-  li.remove();
 }
 
 function renderAll(groceries) {
@@ -102,18 +77,14 @@ function renderAll(groceries) {
       add(grocery);
     });
   }
-}
-
-function removeAll() {
-  var groceries = _toConsumableArray(grocerylist.children);
-
-  groceries.forEach(function (grocery) {
-    grocery.remove();
-  });
-} // Remove all groceries
-
-
-document.querySelector('[grocery-container] button').addEventListener('click', removeAll);
+} // function removeAll() {
+//     const groceries = [...grocerylist.children]
+//     groceries.forEach(grocery => {
+//         grocery.remove()
+//     })
+// }
+// // Remove all groceries
+// document.querySelector('[grocery-container] button').addEventListener('click', removeAll)
 
 },{}],4:[function(require,module,exports){
 "use strict";

@@ -48,7 +48,7 @@ module.exports = (io) => {
         })
 
         socket.on('remove', (name) => {
-            groceries.splice(groceries.indexOf(name.grocery), 1)
+            groceries = groceries.filter(grocery => grocery != name.name)
 
             io.sockets.emit('remove', name)
         })
