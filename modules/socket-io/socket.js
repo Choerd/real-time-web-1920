@@ -47,16 +47,10 @@ module.exports = (io) => {
             io.sockets.emit('grocery', data.grocery)
         })
 
-        socket.on('remove', (data) => {
-            console.log(data)
+        socket.on('remove', (name) => {
+            groceries.splice(groceries.indexOf(name.grocery), 1)
 
-            console.log(groceries)
-
-            groceries.splice(groceries.indexOf(data.grocery), 1)
-
-            console.log(groceries)
-
-            io.sockets.emit('remove', groceries)
+            io.sockets.emit('remove', name)
         })
     })
 }

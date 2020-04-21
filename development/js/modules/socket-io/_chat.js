@@ -34,6 +34,19 @@ export default (io) => {
     io.on('grocery', (data) => {
         const removeButton = grocery.add(data)
 
-        removeButton.addEventListener('click', (event) => grocery.remove(event.target))
+        removeButton.addEventListener('click', (event) => {
+            const string = event.target.parentElement.textContent
+            const groceryName = string.substring(0, string.length - 1)
+
+            io.emit('remove', { name: groceryName })
+        })
+    })
+
+    io.on('remove', (name) => {
+        for (const li of document.querySelectorAll("li")) {
+            if (li.textContent.includes(name.name)) {
+                li.remove()
+            }
+        }
     })
 }
