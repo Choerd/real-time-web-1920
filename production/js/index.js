@@ -230,6 +230,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function sockets(io) {
   (0, _base["default"])(io);
   (0, _chat["default"])(io);
+  var listItems = document.querySelector('[grocery-container] ul').children;
+  console.log(listItems);
 }
 
 },{"./_base":4,"./_chat":5}]},{},[1])

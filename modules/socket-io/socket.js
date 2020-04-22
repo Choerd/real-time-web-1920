@@ -32,9 +32,9 @@ module.exports = (io) => {
             })
         })
 
-        socket.on('pickDrink', async (data) => {
-            io.sockets.emit('pickDrink', await get.ingredients(data.data.id))
-        })
+        // socket.on('pickDrink', async (data) => {
+        //     io.sockets.emit('pickDrink', await get.ingredients(data.data.id))
+        // })
 
         socket.on('chat', (user) => {
             user.name = `${user.name} (${id})`
