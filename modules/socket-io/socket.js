@@ -32,10 +32,6 @@ module.exports = (io) => {
             })
         })
 
-        // socket.on('pickDrink', async (data) => {
-        //     io.sockets.emit('pickDrink', await get.ingredients(data.data.id))
-        // })
-
         socket.on('chat', (user) => {
             user.name = `${user.name} (${id})`
             io.sockets.emit('chat', user)
@@ -49,8 +45,20 @@ module.exports = (io) => {
 
         socket.on('remove', (name) => {
             groceries = groceries.filter(grocery => grocery != name.name)
+            console.log(groceries)
 
             io.sockets.emit('remove', name)
+        })
+
+        socket.on('drink', async (data) => {
+            const drink = await get.ingredients(data.data.id)
+            const ingredients = drink.ingredients
+
+            ingredients.forEach(ingredient => {
+                groceries.push(ingredient)
+            })
+
+            io.sockets.emit('drink', ingredients)
         })
     })
 }

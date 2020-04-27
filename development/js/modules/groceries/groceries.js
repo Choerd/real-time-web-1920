@@ -10,6 +10,10 @@ export function add(data) {
     grocery.append(removeButton)
     grocerylist.append(grocery)
 
+    removeButton.addEventListener('click', () => {
+        console.log('ja')
+    })
+
     return removeButton
 }
 
@@ -20,13 +24,3 @@ export function renderAll(groceries) {
         })
     }
 }
-
-// function removeAll() {
-//     const groceries = [...grocerylist.children]
-//     groceries.forEach(grocery => {
-//         grocery.remove()
-//     })
-// }
-
-// // Remove all groceries
-// document.querySelector('[grocery-container] button').addEventListener('click', removeAll)

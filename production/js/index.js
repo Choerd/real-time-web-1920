@@ -10,15 +10,9 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var socket = io();
-run.sockets(socket); // drinks.drinks()
-// socket.on('pickDrink', (data) => {
-//     data.ingredients.forEach(ingredient => {
-//         grocery.add(ingredient)
-//     })
-//     message.server(`All the ingredients of: ${data.name} were added to the grocerylist`)
-// })
+run.sockets(socket);
 
-},{"./modules/socket-io/socket":6}],2:[function(require,module,exports){
+},{"./modules/socket-io/socket":7}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68,6 +62,9 @@ function add(data) {
   removeButton.textContent = 'X';
   grocery.append(removeButton);
   grocerylist.append(grocery);
+  removeButton.addEventListener('click', function () {
+    console.log('ja');
+  });
   return removeButton;
 }
 
@@ -77,14 +74,7 @@ function renderAll(groceries) {
       add(grocery);
     });
   }
-} // function removeAll() {
-//     const groceries = [...grocerylist.children]
-//     groceries.forEach(grocery => {
-//         grocery.remove()
-//     })
-// }
-// // Remove all groceries
-// document.querySelector('[grocery-container] button').addEventListener('click', removeAll)
+}
 
 },{}],4:[function(require,module,exports){
 "use strict";
@@ -121,11 +111,11 @@ var _default = function _default(io) {
     });
   });
   io.on('joined', function (data) {
-    message.server(data.message);
+    return message.server(data.message);
   }); // Leaving the chat
 
   io.on('leave', function (data) {
-    message.server(data.message);
+    return message.server(data.message);
   });
 };
 
@@ -183,12 +173,11 @@ var _default = function _default(io) {
   });
   io.on('grocery', function (data) {
     var removeButton = grocery.add(data);
-    removeButton.addEventListener('click', function (event) {
-      var string = event.target.parentElement.textContent;
-      var groceryName = string.substring(0, string.length - 1);
-      io.emit('remove', {
-        name: groceryName
-      });
+    removeElement(removeButton, io);
+  });
+  io.on('drink', function (ingredients) {
+    ingredients.forEach(function (ingredient) {
+      removeElement(grocery.add(ingredient), io);
     });
   });
   io.on('remove', function (data) {
@@ -213,7 +202,65 @@ var _default = function _default(io) {
 
 exports["default"] = _default;
 
+function removeElement(button, io) {
+  button.addEventListener('click', function (event) {
+    var string = event.target.parentElement.textContent;
+    var groceryName = string.substring(0, string.length - 1);
+    io.emit('remove', {
+      name: groceryName
+    });
+  });
+}
+
 },{"../chat/messages":2,"../groceries/groceries":3}],6:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var grocery = _interopRequireWildcard(require("../groceries/groceries"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var _default = function _default(io) {
+  var drinksContainer = document.querySelector('[drinks]');
+
+  var drinks = _toConsumableArray(drinksContainer.children);
+
+  drinks.forEach(function (drink) {
+    drink.addEventListener('click', function () {
+      var data = {
+        id: drink.id,
+        drink: drink.querySelector('p').textContent
+      };
+      io.emit('drink', {
+        data: data
+      });
+    });
+  });
+};
+
+exports["default"] = _default;
+
+},{"../groceries/groceries":3}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -225,15 +272,16 @@ var _base = _interopRequireDefault(require("./_base"));
 
 var _chat = _interopRequireDefault(require("./_chat"));
 
+var _drinks = _interopRequireDefault(require("./_drinks"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function sockets(io) {
   (0, _base["default"])(io);
   (0, _chat["default"])(io);
-  var listItems = document.querySelector('[grocery-container] ul').children;
-  console.log(listItems);
+  (0, _drinks["default"])(io);
 }
 
-},{"./_base":4,"./_chat":5}]},{},[1])
+},{"./_base":4,"./_chat":5,"./_drinks":6}]},{},[1])
 
 //# sourceMappingURL=index.js.map

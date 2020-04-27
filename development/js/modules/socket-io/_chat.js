@@ -29,11 +29,12 @@ export default (io) => {
     io.on('grocery', (data) => {
         const removeButton = grocery.add(data)
 
-        removeButton.addEventListener('click', (event) => {
-            const string = event.target.parentElement.textContent
-            const groceryName = string.substring(0, string.length - 1)
+        removeElement(removeButton, io)
+    })
 
-            io.emit('remove', { name: groceryName })
+    io.on('drink', (ingredients) => {
+        ingredients.forEach(ingredient => {
+            removeElement(grocery.add(ingredient), io)
         })
     })
 
@@ -43,5 +44,14 @@ export default (io) => {
                 li.remove()
             }
         }
+    })
+}
+
+function removeElement(button, io) {
+    button.addEventListener('click', (event) => {
+        const string = event.target.parentElement.textContent
+        const groceryName = string.substring(0, string.length - 1)
+
+        io.emit('remove', { name: groceryName })
     })
 }

@@ -17,12 +17,8 @@ export default (io) => {
         })
     })
 
-    io.on('joined', (data) => {
-        message.server(data.message)
-    })
+    io.on('joined', (data) => message.server(data.message))
 
     // Leaving the chat
-    io.on('leave', (data) => {
-        message.server(data.message)
-    })
+    io.on('leave', (data) => message.server(data.message))
 }
