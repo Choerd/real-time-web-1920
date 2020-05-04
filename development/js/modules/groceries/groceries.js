@@ -5,6 +5,7 @@ export function add(data) {
     const removeButton = document.createElement('span')
 
     grocery.textContent = data
+    grocery.style.overflow = 'hidden'
     removeButton.textContent = 'X'
 
     grocery.append(removeButton)

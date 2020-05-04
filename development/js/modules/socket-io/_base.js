@@ -19,6 +19,8 @@ export default (io) => {
 
     io.on('joined', (data) => message.server(data.message))
 
+    io.on('nicknameChanged', (data) => message.server(data))
+
     // Leaving the chat
     io.on('leave', (data) => message.server(data.message))
 }

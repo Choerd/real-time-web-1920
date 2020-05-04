@@ -6,7 +6,33 @@ export default (io) => {
         chatForm = document.querySelector('[send-message]'),
         chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
         chatString = chatForm.querySelector('div input[type="text"]'),
-        chatSubmit = chatForm.querySelector('div input[type="submit"]')
+        chatSubmit = chatForm.querySelector('div input[type="submit"]'),
+        groceriesDone = document.querySelector('[grocery-container] button')
+
+    groceriesDone.addEventListener('click', () => {
+        io.emit('selectPeople')
+    })
+
+    io.on('done', (data) => {
+        const groceries = [...document.querySelectorAll('[grocery-container] ul li')]
+
+        data.forEach(person => {
+            person.groceries.forEach(ingredient => {
+                groceries.forEach(grocery => {
+                    const name = grocery.textContent.substring(0, grocery.textContent.length - 1)
+
+                    if (name == ingredient) {
+                        grocery.setAttribute('user-id', `${person.nickname}(${person.id}):`)
+                    }
+                })
+            })
+        })
+        groceriesDone.remove()
+    })
+
+    chatName.addEventListener('change', (event) => {
+        io.emit('changeName', { nickname: event.target.value })
+    })
 
     // Chatting
     chatSubmit.addEventListener('click', (event) => {
