@@ -43,6 +43,8 @@ When you enter the chat everyone gets a notification including yourself.
 When you leave the chatroom also everyone gets a notification.
 * **Chat**  
 Everyone is able to chat with each other to discuss about what groceries to get for that night.
+* **Nicknames**  
+Change your nickname and this will be updated on the server. This nickname will be used when deviding the groceries.
 * **Groceries**
     * **Add**  
     By using `:add` in the chat everyone can add groceries to the list. 
@@ -53,6 +55,8 @@ Everyone is able to chat with each other to discuss about what groceries to get 
     By clicking on a drink in the cocktail list the groceries of that cocktail will be added to the grocerylist.
     * **Filter**  
     You can use the ingredient filter to look for cocktails with a specific ingredient.
+* **Deviding the groceries**  
+When a user presses on 'Deviding the groceries' two random users will be picked and assigned to the groceries
 
 <hr>
 
