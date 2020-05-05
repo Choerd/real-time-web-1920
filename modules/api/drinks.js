@@ -5,6 +5,13 @@ async function drinks() {
     return alcoholicDrinks.drinks
 }
 
+async function filteredDrinks(data) {
+    const ingredient = data.ingredient.replace(/\s+/g, '%20')
+    const drinks = await fetcher(`https://the-cocktail-db.p.rapidapi.com/filter.php?i=${ingredient}`)
+
+    return drinks.drinks
+}
+
 async function drink(id) {
     const singleDrink = await fetcher(`https://the-cocktail-db.p.rapidapi.com/lookup.php?i=${id}`)
     return singleDrink.drinks
@@ -36,5 +43,6 @@ function checkValue(entry) {
 module.exports = {
     drinks,
     drink,
-    ingredients
+    ingredients,
+    filteredDrinks
 }

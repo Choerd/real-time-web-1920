@@ -7,7 +7,34 @@ export default (io) => {
         chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
         chatString = chatForm.querySelector('div input[type="text"]'),
         chatSubmit = chatForm.querySelector('div input[type="submit"]'),
-        groceriesDone = document.querySelector('[grocery-container] button')
+        groceriesDone = document.querySelector('[grocery-container] button'),
+        selectIngredient = document.querySelector('[drinks] select')
+
+    selectIngredient.addEventListener('change', (event) => {
+        io.emit('selectIngredient', { ingredient: event.target.value })
+    })
+
+    io.on('select', (data) => {
+        const drinkElements = [...document.querySelector('[drinks]').children]
+        drinkElements.shift()
+
+        drinkElements.forEach(element => {
+            element.remove()
+        })
+
+        data.forEach(drink => {
+            document.querySelector('[drinks]').appendChild(createDrinkElement(drink, io))
+        })
+
+        const newDrinks = [...document.querySelector('[drinks]').children]
+        newDrinks.shift()
+        newDrinks.forEach(drink => {
+            drink.addEventListener('click', () => {
+                const data = { id: drink.id, drink: drink.querySelector('p').textContent }
+                io.emit('drink', { data })
+            })
+        })
+    })
 
     groceriesDone.addEventListener('click', () => {
         io.emit('selectPeople')
@@ -71,6 +98,21 @@ export default (io) => {
             }
         }
     })
+}
+
+function createDrinkElement(data, io) {
+    const article = document.createElement('article')
+    const image = document.createElement('img')
+    const paragraph = document.createElement('p')
+
+    article.id = data.idDrink
+    image.setAttribute('src', data.strDrinkThumb)
+    paragraph.textContent = data.strDrink
+
+    article.appendChild(image)
+    article.appendChild(paragraph)
+
+    return article
 }
 
 function removeElement(button, io) {

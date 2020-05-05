@@ -84,14 +84,24 @@ module.exports = (io) => {
         })
 
         socket.on('selectPeople', () => {
-            const people = pickTwoPeople(users)
-            const splittedGroceries = splitGroceries(groceries)
+            if (users.length >= 2) {
+                const people = pickTwoPeople(users)
+                const splittedGroceries = splitGroceries(groceries)
 
-            for (let i = 0; i < people.length; i++) {
-                people[i].groceries = splittedGroceries[i]
+                for (let i = 0; i < people.length; i++) {
+                    people[i].groceries = splittedGroceries[i]
+                }
+
+                io.sockets.emit('done', people)
             }
+        })
 
-            io.sockets.emit('done', people)
+        socket.on('selectIngredient', async (data) => {
+            if (data.ingredient != 'all') {
+                socket.emit('select', await get.filteredDrinks(data))
+            } else {
+                socket.emit('select', await get.drinks())
+            }
         })
     })
 }

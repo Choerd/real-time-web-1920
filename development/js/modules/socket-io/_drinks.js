@@ -1,8 +1,7 @@
-import * as grocery from '../groceries/groceries'
-
 export default (io) => {
     const drinksContainer = document.querySelector('[drinks]')
     const drinks = [...drinksContainer.children]
+    drinks.shift()
 
     drinks.forEach(drink => {
         drink.addEventListener('click', () => {

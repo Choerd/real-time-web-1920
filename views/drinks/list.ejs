@@ -1,8 +1,17 @@
 <section drinks>
-    <% drinks.forEach(drink => { %>
+
+    <select>
+        <option value="all">All</option>
+        <% data.ingredients.forEach(ingredient => { %>
+        <option value="<%= ingredient.strIngredient1 %>"><%= ingredient.strIngredient1 %></option>
+        <% }) %>
+    </select>
+
+    <% data.drinks.forEach(drink => { %>
     <article id="<%= drink.idDrink %>">
         <img src="<%= drink.strDrinkThumb %>">
         <p><%= drink.strDrink %></p>
     </article>
     <% }) %>
+
 </section>

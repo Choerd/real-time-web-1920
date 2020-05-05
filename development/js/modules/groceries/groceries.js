@@ -11,10 +11,6 @@ export function add(data) {
     grocery.append(removeButton)
     grocerylist.append(grocery)
 
-    removeButton.addEventListener('click', () => {
-        console.log('ja')
-    })
-
     return removeButton
 }
 

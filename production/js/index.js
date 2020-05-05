@@ -63,9 +63,6 @@ function add(data) {
   removeButton.textContent = 'X';
   grocery.append(removeButton);
   grocerylist.append(grocery);
-  removeButton.addEventListener('click', function () {
-    console.log('ja');
-  });
   return removeButton;
 }
 
@@ -162,7 +159,39 @@ var _default = function _default(io) {
       chatName = chatForm.querySelector('input[type="text"]:first-of-type'),
       chatString = chatForm.querySelector('div input[type="text"]'),
       chatSubmit = chatForm.querySelector('div input[type="submit"]'),
-      groceriesDone = document.querySelector('[grocery-container] button');
+      groceriesDone = document.querySelector('[grocery-container] button'),
+      selectIngredient = document.querySelector('[drinks] select');
+  selectIngredient.addEventListener('change', function (event) {
+    io.emit('selectIngredient', {
+      ingredient: event.target.value
+    });
+  });
+  io.on('select', function (data) {
+    var drinkElements = _toConsumableArray(document.querySelector('[drinks]').children);
+
+    drinkElements.shift();
+    drinkElements.forEach(function (element) {
+      element.remove();
+    });
+    data.forEach(function (drink) {
+      document.querySelector('[drinks]').appendChild(createDrinkElement(drink, io));
+    });
+
+    var newDrinks = _toConsumableArray(document.querySelector('[drinks]').children);
+
+    newDrinks.shift();
+    newDrinks.forEach(function (drink) {
+      drink.addEventListener('click', function () {
+        var data = {
+          id: drink.id,
+          drink: drink.querySelector('p').textContent
+        };
+        io.emit('drink', {
+          data: data
+        });
+      });
+    });
+  });
   groceriesDone.addEventListener('click', function () {
     io.emit('selectPeople');
   });
@@ -239,6 +268,18 @@ var _default = function _default(io) {
 
 exports["default"] = _default;
 
+function createDrinkElement(data, io) {
+  var article = document.createElement('article');
+  var image = document.createElement('img');
+  var paragraph = document.createElement('p');
+  article.id = data.idDrink;
+  image.setAttribute('src', data.strDrinkThumb);
+  paragraph.textContent = data.strDrink;
+  article.appendChild(image);
+  article.appendChild(paragraph);
+  return article;
+}
+
 function removeElement(button, io) {
   button.addEventListener('click', function (event) {
     var string = event.target.parentElement.textContent;
@@ -252,18 +293,10 @@ function removeElement(button, io) {
 },{"../chat/messages":2,"../groceries/groceries":3}],6:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-var grocery = _interopRequireWildcard(require("../groceries/groceries"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -282,6 +315,7 @@ var _default = function _default(io) {
 
   var drinks = _toConsumableArray(drinksContainer.children);
 
+  drinks.shift();
   drinks.forEach(function (drink) {
     drink.addEventListener('click', function () {
       var data = {
@@ -297,7 +331,7 @@ var _default = function _default(io) {
 
 exports["default"] = _default;
 
-},{"../groceries/groceries":3}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
