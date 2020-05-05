@@ -7,6 +7,7 @@
     * [Real-time Events](#Real-time-Events)
 * [Data Life Cycle Diagram](#Data-Life-Cycle-Diagram)
 * [External Datasource/API](#External-Datasource/API)
+* [Install Notes](#Install-Notes)
 * [Reflection](#Reflection)
     * [Nice-to-haves](#Nice-to-haves)
     * [What could be better?](#What-could-be-better?)
@@ -21,7 +22,7 @@ Every weekend when me and my friend are planning to have a drink together we alw
 **'Who gets what'-app**  
 With my new app you can go into a chatroom with your friends and put a grocerylist together. You can do this on two seperate ways. Adding groceries to the list by simply adding them or you can select a cocktail on the right hand side and all the ingredients will be added to the grocerylist. This way you can test out some of the cocktails from the api I used and get a overview of all the groceries you and your friends need for the weekend. At the end, when the grocerylist is finished, two people will be randomly picked to go to supermarket and get the groceries needed. There also will be a option to trade your turn to get the groceries if your friends think you have a good excuse.
 
-`Add screenshot here`
+<img alt="Schermafbeelding 2020-05-06 om 00 57 16" src="https://user-images.githubusercontent.com/45365598/81123966-97701d80-8f34-11ea-94a0-d69291381608.png">
 
 <hr>
 
@@ -56,7 +57,7 @@ Everyone is able to chat with each other to discuss about what groceries to get 
 <hr>
 
 ## Data Life Cycle Diagram
-`Add screenshot here`
+![Data Life Cycle Diagram - Final](https://user-images.githubusercontent.com/45365598/81123766-27619780-8f34-11ea-8b84-8c1e49879dad.png)
 
 <hr>
 
@@ -75,6 +76,25 @@ So far as I know there are no limits to this application. You do need a api key 
 
 For the documentation you can check out the following link:  
 [The Cocktail DB API Documentation](https://rapidapi.com/theapiguy/api/the-cocktail-db)
+
+<hr>
+
+## Install Notes
+
+Clone this repo
+> https://github.com/Choerd/real-time-web-1920.git
+
+Navigate to the repo
+> `cd` real-time-web-1920
+
+Install all the dependencies
+> npm install
+
+Run the application
+> npm start
+
+Visit the application
+> http://localhost:4000/
 
 <hr>
 
